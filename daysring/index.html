@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DaysRing — Privacy Policy & Terms of Use</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Noto+Sans+SC:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #f8f9fb;
+    --card: #ffffff;
+    --text: #1d1d1f;
+    --muted: #6e6e73;
+    --accent: #2563eb;
+    --border: #e5e7eb;
+    --radius: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111113;
+      --card: #1c1c1e;
+      --text: #f5f5f7;
+      --muted: #98989d;
+      --accent: #5b9bf5;
+      --border: #2c2c2e;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', 'Noto Sans JP', 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .header .icon {
+    width: 56px; height: 56px;
+    background: linear-gradient(135deg, #6366f1, #2563eb);
+    border-radius: 14px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    color: #fff; font-size: 28px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .header .update {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .lang-bar {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .lang-bar button {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .lang-bar button:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-bar button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .tab-bar button {
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab-bar button:hover { color: var(--text); }
+  .tab-bar button.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+  }
+
+  .card h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 20px 0 8px;
+    color: var(--accent);
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .card p:last-child { margin-bottom: 0; }
+
+  .contact {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .contact a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="icon">\u23F1</div>
+    <h1>DaysRing</h1>
+    <div class="update" id="updateDate"></div>
+  </div>
+
+  <div class="lang-bar" id="langBar"></div>
+  <div class="tab-bar" id="tabBar"></div>
+  <div id="contentArea"></div>
+
+  <div class="footer">\u00A9 2026 Kentaro Shirai. All rights reserved.</div>
+</div>
+
+<script>
+// ============================================================
+// Contact email (change this to your own)
+// ============================================================
+var CONTACT_EMAIL = "sheepboy.apps@gmail.com";
+
+// ============================================================
+// Content Data (5 languages)
+// ============================================================
+var DATA = {};
+
+DATA["ja"] = {
+  label: "\u65E5\u672C\u8A9E",
+  updated: "\u6700\u7D42\u66F4\u65B0\u65E5: 2026\u5E744\u670818\u65E5",
+  tabs: ["\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC\u30DD\u30EA\u30B7\u30FC", "\u5229\u7528\u898F\u7D04"],
+  privacy: {
+    title: "\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC\u30DD\u30EA\u30B7\u30FC",
+    sections: [
+      {
+        heading: "\u306F\u3058\u3081\u306B",
+        body: "DaysRing\uFF08\u4EE5\u4E0B\u300C\u672C\u30A2\u30D7\u30EA\u300D\uFF09\u306F\u3001Kentaro Shirai\uFF08\u4EE5\u4E0B\u300C\u958B\u767A\u8005\u300D\uFF09\u304C\u63D0\u4F9B\u3059\u308B iOS \u30A2\u30D7\u30EA\u30B1\u30FC\u30B7\u30E7\u30F3\u3067\u3059\u3002\u672C\u30DD\u30EA\u30B7\u30FC\u3067\u306F\u3001\u672C\u30A2\u30D7\u30EA\u306B\u304A\u3051\u308B\u60C5\u5831\u306E\u53D6\u308A\u6271\u3044\u306B\u3064\u3044\u3066\u3054\u8AAC\u660E\u3057\u307E\u3059\u3002"
+      },
+      {
+        heading: "\u30C7\u30FC\u30BF\u306E\u53CE\u96C6\u306B\u3064\u3044\u3066",
+        body: "\u672C\u30A2\u30D7\u30EA\u306F\u3001\u30E6\u30FC\u30B6\u30FC\u306E\u500B\u4EBA\u60C5\u5831\u3092\u53CE\u96C6\u3001\u9001\u4FE1\u3001\u307E\u305F\u306F\u5916\u90E8\u30B5\u30FC\u30D0\u30FC\u306B\u4FDD\u5B58\u3059\u308B\u3053\u3068\u306F\u3042\u308A\u307E\u305B\u3093\u3002\u3059\u3079\u3066\u306E\u30C7\u30FC\u30BF\uFF08\u30C8\u30E9\u30C3\u30AB\u30FC\u60C5\u5831\u3001\u8A2D\u5B9A\u3001\u30D7\u30EC\u30DF\u30A2\u30E0\u72B6\u614B\u306A\u3069\uFF09\u306F\u304A\u4F7F\u3044\u306E\u30C7\u30D0\u30A4\u30B9\u5185\u306B\u306E\u307F\u4FDD\u5B58\u3055\u308C\u307E\u3059\u3002"
+      },
+      {
+        heading: "\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u901A\u4FE1",
+        body: "\u672C\u30A2\u30D7\u30EA\u306F\u30D0\u30C3\u30AF\u30A8\u30F3\u30C9\u30B5\u30FC\u30D0\u30FC\u3092\u6301\u305F\u305A\u3001\u30A4\u30F3\u30BF\u30FC\u30CD\u30C3\u30C8\u901A\u4FE1\u3092\u884C\u3044\u307E\u305B\u3093\u3002\u305F\u3060\u3057\u3001App \u5185\u8AB2\u91D1\uFF08In-App Purchase\uFF09\u306E\u51E6\u7406\u306B\u304A\u3044\u3066\u3001Apple \u306E\u30B5\u30FC\u30D0\u30FC\u3068\u306E\u901A\u4FE1\u304C\u767A\u751F\u3057\u307E\u3059\u3002\u3053\u306E\u901A\u4FE1\u306F Apple \u304C\u7BA1\u7406\u3057\u3066\u304A\u308A\u3001\u958B\u767A\u8005\u304C\u30A2\u30AF\u30BB\u30B9\u3059\u308B\u3053\u3068\u306F\u3067\u304D\u307E\u305B\u3093\u3002"
+      },
+      {
+        heading: "App \u5185\u8AB2\u91D1",
+        body: "\u672C\u30A2\u30D7\u30EA\u3067\u306F\u3001\u30D7\u30EC\u30DF\u30A2\u30E0\u6A5F\u80FD\u306E\u30A2\u30F3\u30ED\u30C3\u30AF\u306E\u305F\u3081\u306B Apple \u306E In-App Purchase \u3092\u4F7F\u7528\u3057\u307E\u3059\u3002\u8AB2\u91D1\u306E\u51E6\u7406\u306F\u3059\u3079\u3066 Apple \u304C\u884C\u3044\u3001\u958B\u767A\u8005\u304C\u304A\u652F\u6255\u3044\u60C5\u5831\u306B\u30A2\u30AF\u30BB\u30B9\u3059\u308B\u3053\u3068\u306F\u3042\u308A\u307E\u305B\u3093\u3002"
+      },
+      {
+        heading: "\u5206\u6790\u30FB\u30C8\u30E9\u30C3\u30AD\u30F3\u30B0",
+        body: "\u672C\u30A2\u30D7\u30EA\u306F\u3001\u5E83\u544A SDK\u3001\u5206\u6790\u30C4\u30FC\u30EB\u3001\u30C8\u30E9\u30C3\u30AD\u30F3\u30B0\u6280\u8853\u3092\u4E00\u5207\u4F7F\u7528\u3057\u3066\u3044\u307E\u305B\u3093\u3002"
+      },
+      {
+        heading: "\u304A\u5B50\u69D8\u306E\u30D7\u30E9\u30A4\u30D0\u30B7\u30FC",
+        body: "\u672C\u30A2\u30D7\u30EA\u306F\u300113 \u6B73\u672A\u6E80\u306E\u304A\u5B50\u69D8\u304B\u3089\u610F\u56F3\u7684\u306B\u500B\u4EBA\u60C5\u5831\u3092\u53CE\u96C6\u3059\u308B\u3053\u3068\u306F\u3042\u308A\u307E\u305B\u3093\u3002"
+      },
+      {
+        heading: "\u30DD\u30EA\u30B7\u30FC\u306E\u5909\u66F4",
+        body: "\u672C\u30DD\u30EA\u30B7\u30FC\u306F\u4E88\u544A\u306A\u304F\u5909\u66F4\u3055\u308C\u308B\u5834\u5408\u304C\u3042\u308A\u307E\u3059\u3002\u91CD\u8981\u306A\u5909\u66F4\u304C\u3042\u308B\u5834\u5408\u306F\u3001\u672C\u30DA\u30FC\u30B8\u306B\u3066\u66F4\u65B0\u3057\u307E\u3059\u3002"
+      }
+    ]
+  },
+  terms: {
+    title: "\u5229\u7528\u898F\u7D04",
+    sections: [
+      {
+        heading: "\u30B5\u30FC\u30D3\u30B9\u306E\u6982\u8981",
+        body: "DaysRing \u306F\u3001\u7E70\u308A\u8FD4\u3057\u8A2A\u308C\u308B\u30A4\u30D9\u30F3\u30C8\u3084\u30B5\u30A4\u30AF\u30EB\u306E\u7D4C\u904E\u7387\u3092\u30EA\u30A2\u30EB\u30BF\u30A4\u30E0\u3067\u53EF\u8996\u5316\u3059\u308B iOS \u30A2\u30D7\u30EA\u3067\u3059\u3002"
+      },
+      {
+        heading: "\u5229\u7528\u6761\u4EF6",
+        body: "\u672C\u30A2\u30D7\u30EA\u3092\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u307E\u305F\u306F\u4F7F\u7528\u3059\u308B\u3053\u3068\u306B\u3088\u308A\u3001\u672C\u5229\u7528\u898F\u7D04\u306B\u540C\u610F\u3057\u305F\u3082\u306E\u3068\u307F\u306A\u3055\u308C\u307E\u3059\u3002\u540C\u610F\u3044\u305F\u3060\u3051\u306A\u3044\u5834\u5408\u306F\u3001\u672C\u30A2\u30D7\u30EA\u306E\u4F7F\u7528\u3092\u304A\u63A7\u3048\u304F\u3060\u3055\u3044\u3002"
+      },
+      {
+        heading: "\u77E5\u7684\u8CA1\u7523\u6A29",
+        body: "\u672C\u30A2\u30D7\u30EA\u306E\u3059\u3079\u3066\u306E\u30B3\u30F3\u30C6\u30F3\u30C4\u3001\u30C7\u30B6\u30A4\u30F3\u3001\u30B3\u30FC\u30C9\u306F\u958B\u767A\u8005\u306B\u5E30\u5C5E\u3057\u307E\u3059\u3002\u7121\u65AD\u3067\u306E\u8907\u88FD\u3001\u6539\u5909\u3001\u518D\u914D\u5E03\u306F\u7981\u6B62\u3055\u308C\u3066\u3044\u307E\u3059\u3002"
+      },
+      {
+        heading: "App \u5185\u8AB2\u91D1",
+        body: "\u30D7\u30EC\u30DF\u30A2\u30E0\u6A5F\u80FD\u306F\u8CB7\u3044\u5207\u308A\u578B\u306E App \u5185\u8AB2\u91D1\u306B\u3088\u308A\u63D0\u4F9B\u3055\u308C\u307E\u3059\u3002\u8CFC\u5165\u306F Apple ID \u306B\u8ACB\u6C42\u3055\u308C\u307E\u3059\u3002\u8FD4\u91D1\u306B\u3064\u3044\u3066\u306F Apple \u306E\u30DD\u30EA\u30B7\u30FC\u306B\u6E96\u3058\u307E\u3059\u3002"
+      },
+      {
+        heading: "\u514D\u8CAC\u4E8B\u9805",
+        body: "\u672C\u30A2\u30D7\u30EA\u306F\u300C\u73FE\u72B6\u306E\u307E\u307E\u300D\u63D0\u4F9B\u3055\u308C\u307E\u3059\u3002\u958B\u767A\u8005\u306F\u3001\u672C\u30A2\u30D7\u30EA\u306E\u4F7F\u7528\u307E\u305F\u306F\u4F7F\u7528\u4E0D\u80FD\u304B\u3089\u751F\u3058\u308B\u3044\u304B\u306A\u308B\u640D\u5BB3\u306B\u3064\u3044\u3066\u3082\u8CAC\u4EFB\u3092\u8CA0\u3044\u307E\u305B\u3093\u3002\u30C7\u30FC\u30BF\u306E\u6B63\u78BA\u6027\u3001\u5B8C\u5168\u6027\u3001\u9069\u6642\u6027\u306B\u3064\u3044\u3066\u4FDD\u8A3C\u3059\u308B\u3082\u306E\u3067\u306F\u3042\u308A\u307E\u305B\u3093\u3002"
+      },
+      {
+        heading: "\u898F\u7D04\u306E\u5909\u66F4",
+        body: "\u672C\u898F\u7D04\u306F\u4E88\u544A\u306A\u304F\u5909\u66F4\u3055\u308C\u308B\u5834\u5408\u304C\u3042\u308A\u307E\u3059\u3002\u5909\u66F4\u5F8C\u3082\u672C\u30A2\u30D7\u30EA\u3092\u7D99\u7D9A\u3057\u3066\u4F7F\u7528\u3055\u308C\u305F\u5834\u5408\u3001\u5909\u66F4\u5F8C\u306E\u898F\u7D04\u306B\u540C\u610F\u3057\u305F\u3082\u306E\u3068\u307F\u306A\u3057\u307E\u3059\u3002"
+      }
+    ]
+  },
+  contact: "\u304A\u554F\u3044\u5408\u308F\u305B"
+};
+
+DATA["en"] = {
+  label: "English",
+  updated: "Last updated: April 18, 2026",
+  tabs: ["Privacy Policy", "Terms of Use"],
+  privacy: {
+    title: "Privacy Policy",
+    sections: [
+      { heading: "Introduction", body: "DaysRing is an iOS application provided by Kentaro Shirai. This policy explains how information is handled within the App." },
+      { heading: "Data Collection", body: "The App does not collect, transmit, or store any personal information on external servers. All data (tracker information, settings, premium status, etc.) is stored exclusively on your device." },
+      { heading: "Network Communication", body: "The App does not have a backend server and does not perform internet communication. However, communication with Apple servers occurs during In-App Purchase processing. This communication is managed by Apple and is not accessible to the Developer." },
+      { heading: "In-App Purchases", body: "The App uses Apple In-App Purchase system to unlock premium features. All payment processing is handled by Apple, and the Developer does not have access to your payment information." },
+      { heading: "Analytics & Tracking", body: "The App does not use any advertising SDKs, analytics tools, or tracking technologies." },
+      { heading: "Children's Privacy", body: "The App does not knowingly collect personal information from children under the age of 13." },
+      { heading: "Changes to This Policy", body: "This policy may be updated without prior notice. Significant changes will be reflected on this page." }
+    ]
+  },
+  terms: {
+    title: "Terms of Use",
+    sections: [
+      { heading: "Overview", body: "DaysRing is an iOS application that visualizes the progress of recurring events and cycles in real time." },
+      { heading: "Acceptance of Terms", body: "By downloading or using the App, you agree to these Terms of Use. If you do not agree, please refrain from using the App." },
+      { heading: "Intellectual Property", body: "All content, design, and code of the App belong to the Developer. Unauthorized reproduction, modification, or redistribution is prohibited." },
+      { heading: "In-App Purchases", body: "Premium features are provided through a one-time In-App Purchase. Purchases are charged to your Apple ID. Refunds are subject to Apple policies." },
+      { heading: "Disclaimer", body: "The App is provided as-is. The Developer shall not be liable for any damages arising from the use or inability to use the App. No guarantees are made regarding the accuracy, completeness, or timeliness of data." },
+      { heading: "Changes to These Terms", body: "These terms may be updated without prior notice. Continued use of the App after changes constitutes acceptance of the updated terms." }
+    ]
+  },
+  contact: "Contact"
+};
+
+DATA["zh-Hans"] = {
+  label: "\u4E2D\u6587",
+  updated: "\u6700\u540E\u66F4\u65B0\uFF1A2026\u5E744\u670818\u65E5",
+  tabs: ["\u9690\u79C1\u653F\u7B56", "\u4F7F\u7528\u6761\u6B3E"],
+  privacy: {
+    title: "\u9690\u79C1\u653F\u7B56",
+    sections: [
+      { heading: "\u6982\u8FF0", body: "DaysRing\uFF08\u4EE5\u4E0B\u7B80\u79F0\u300C\u672C\u5E94\u7528\u300D\uFF09\u662F\u7531 Kentaro Shirai\uFF08\u4EE5\u4E0B\u7B80\u79F0\u300C\u5F00\u53D1\u8005\u300D\uFF09\u63D0\u4F9B\u7684 iOS \u5E94\u7528\u7A0B\u5E8F\u3002\u672C\u653F\u7B56\u8BF4\u660E\u4E86\u672C\u5E94\u7528\u4E2D\u4FE1\u606F\u7684\u5904\u7406\u65B9\u5F0F\u3002" },
+      { heading: "\u6570\u636E\u6536\u96C6", body: "\u672C\u5E94\u7528\u4E0D\u4F1A\u6536\u96C6\u3001\u4F20\u8F93\u6216\u5728\u5916\u90E8\u670D\u52A1\u5668\u4E0A\u5B58\u50A8\u4EFB\u4F55\u4E2A\u4EBA\u4FE1\u606F\u3002\u6240\u6709\u6570\u636E\uFF08\u8FFD\u8E2A\u5668\u4FE1\u606F\u3001\u8BBE\u7F6E\u3001\u9AD8\u7EA7\u7248\u72B6\u6001\u7B49\uFF09\u4EC5\u5B58\u50A8\u5728\u60A8\u7684\u8BBE\u5907\u4E0A\u3002" },
+      { heading: "\u7F51\u7EDC\u901A\u4FE1", body: "\u672C\u5E94\u7528\u6CA1\u6709\u540E\u7AEF\u670D\u52A1\u5668\uFF0C\u4E0D\u8FDB\u884C\u4E92\u8054\u7F51\u901A\u4FE1\u3002\u4F46\u5728\u5E94\u7528\u5185\u8D2D\u4E70\u5904\u7406\u8FC7\u7A0B\u4E2D\uFF0C\u4F1A\u4E0E Apple \u670D\u52A1\u5668\u8FDB\u884C\u901A\u4FE1\u3002\u8BE5\u901A\u4FE1\u7531 Apple \u7BA1\u7406\uFF0C\u5F00\u53D1\u8005\u65E0\u6CD5\u8BBF\u95EE\u3002" },
+      { heading: "\u5E94\u7528\u5185\u8D2D\u4E70", body: "\u672C\u5E94\u7528\u4F7F\u7528 Apple \u7684\u5E94\u7528\u5185\u8D2D\u4E70\u7CFB\u7EDF\u6765\u89E3\u9501\u9AD8\u7EA7\u529F\u80FD\u3002\u6240\u6709\u652F\u4ED8\u5904\u7406\u7531 Apple \u8D1F\u8D23\uFF0C\u5F00\u53D1\u8005\u65E0\u6CD5\u8BBF\u95EE\u60A8\u7684\u652F\u4ED8\u4FE1\u606F\u3002" },
+      { heading: "\u5206\u6790\u4E0E\u8DDF\u8E2A", body: "\u672C\u5E94\u7528\u4E0D\u4F7F\u7528\u4EFB\u4F55\u5E7F\u544A SDK\u3001\u5206\u6790\u5DE5\u5177\u6216\u8DDF\u8E2A\u6280\u672F\u3002" },
+      { heading: "\u513F\u7AE5\u9690\u79C1", body: "\u672C\u5E94\u7528\u4E0D\u4F1A\u6709\u610F\u6536\u96C6 13 \u5C81\u4EE5\u4E0B\u513F\u7AE5\u7684\u4E2A\u4EBA\u4FE1\u606F\u3002" },
+      { heading: "\u653F\u7B56\u53D8\u66F4", body: "\u672C\u653F\u7B56\u53EF\u80FD\u4F1A\u4E0D\u7ECF\u4E8B\u5148\u901A\u77E5\u800C\u66F4\u65B0\u3002\u91CD\u5927\u53D8\u66F4\u5C06\u5728\u672C\u9875\u9762\u4E0A\u53CD\u6620\u3002" }
+    ]
+  },
+  terms: {
+    title: "\u4F7F\u7528\u6761\u6B3E",
+    sections: [
+      { heading: "\u670D\u52A1\u6982\u8FF0", body: "DaysRing \u662F\u4E00\u6B3E\u5B9E\u65F6\u53EF\u89C6\u5316\u5468\u671F\u6027\u4E8B\u4EF6\u8FDB\u5EA6\u7684 iOS \u5E94\u7528\u7A0B\u5E8F\u3002" },
+      { heading: "\u6761\u6B3E\u63A5\u53D7", body: "\u4E0B\u8F7D\u6216\u4F7F\u7528\u672C\u5E94\u7528\u5373\u8868\u793A\u60A8\u540C\u610F\u672C\u4F7F\u7528\u6761\u6B3E\u3002\u5982\u679C\u60A8\u4E0D\u540C\u610F\uFF0C\u8BF7\u505C\u6B62\u4F7F\u7528\u672C\u5E94\u7528\u3002" },
+      { heading: "\u77E5\u8BC6\u4EA7\u6743", body: "\u672C\u5E94\u7528\u7684\u6240\u6709\u5185\u5BB9\u3001\u8BBE\u8BA1\u548C\u4EE3\u7801\u5F52\u5F00\u53D1\u8005\u6240\u6709\u3002\u672A\u7ECF\u6388\u6743\u7684\u590D\u5236\u3001\u4FEE\u6539\u6216\u518D\u5206\u53D1\u662F\u88AB\u7981\u6B62\u7684\u3002" },
+      { heading: "\u5E94\u7528\u5185\u8D2D\u4E70", body: "\u9AD8\u7EA7\u529F\u80FD\u901A\u8FC7\u4E00\u6B21\u6027\u5E94\u7528\u5185\u8D2D\u4E70\u63D0\u4F9B\u3002\u8D2D\u4E70\u5C06\u4ECE\u60A8\u7684 Apple ID \u4E2D\u6263\u8D39\u3002\u9000\u6B3E\u9075\u5FAA Apple \u7684\u653F\u7B56\u3002" },
+      { heading: "\u514D\u8D23\u58F0\u660E", body: "\u672C\u5E94\u7528\u6309\u539F\u6837\u63D0\u4F9B\u3002\u5F00\u53D1\u8005\u4E0D\u5BF9\u56E0\u4F7F\u7528\u6216\u65E0\u6CD5\u4F7F\u7528\u672C\u5E94\u7528\u800C\u4EA7\u751F\u7684\u4EFB\u4F55\u635F\u5BB3\u627F\u62C5\u8D23\u4EFB\u3002\u4E0D\u4FDD\u8BC1\u6570\u636E\u7684\u51C6\u786E\u6027\u3001\u5B8C\u6574\u6027\u6216\u53CA\u65F6\u6027\u3002" },
+      { heading: "\u6761\u6B3E\u53D8\u66F4", body: "\u672C\u6761\u6B3E\u53EF\u80FD\u4F1A\u4E0D\u7ECF\u4E8B\u5148\u901A\u77E5\u800C\u66F4\u65B0\u3002\u53D8\u66F4\u540E\u7EE7\u7EED\u4F7F\u7528\u672C\u5E94\u7528\u5373\u8868\u793A\u63A5\u53D7\u66F4\u65B0\u540E\u7684\u6761\u6B3E\u3002" }
+    ]
+  },
+  contact: "\u8054\u7CFB\u65B9\u5F0F"
+};
+
+DATA["fr"] = {
+  label: "Fran\u00E7ais",
+  updated: "Derni\u00E8re mise \u00E0 jour : 18 avril 2026",
+  tabs: ["Politique de confidentialit\u00E9", "Conditions d\u2019utilisation"],
+  privacy: {
+    title: "Politique de confidentialit\u00E9",
+    sections: [
+      { heading: "Introduction", body: "DaysRing est une application iOS fournie par Kentaro Shirai. Cette politique explique comment les informations sont trait\u00E9es au sein de l\u2019Application." },
+      { heading: "Collecte de donn\u00E9es", body: "L\u2019Application ne collecte, ne transmet et ne stocke aucune information personnelle sur des serveurs externes. Toutes les donn\u00E9es (informations des suivis, param\u00E8tres, statut premium, etc.) sont stock\u00E9es exclusivement sur votre appareil." },
+      { heading: "Communication r\u00E9seau", body: "L\u2019Application ne dispose pas de serveur backend et n\u2019effectue pas de communication Internet. Toutefois, une communication avec les serveurs d\u2019Apple a lieu lors du traitement des achats int\u00E9gr\u00E9s. Cette communication est g\u00E9r\u00E9e par Apple et n\u2019est pas accessible au D\u00E9veloppeur." },
+      { heading: "Achats int\u00E9gr\u00E9s", body: "L\u2019Application utilise le syst\u00E8me d\u2019achat int\u00E9gr\u00E9 d\u2019Apple pour d\u00E9bloquer les fonctionnalit\u00E9s premium. Tout le traitement des paiements est g\u00E9r\u00E9 par Apple, et le D\u00E9veloppeur n\u2019a pas acc\u00E8s \u00E0 vos informations de paiement." },
+      { heading: "Analyses et suivi", body: "L\u2019Application n\u2019utilise aucun SDK publicitaire, outil d\u2019analyse ou technologie de suivi." },
+      { heading: "Confidentialit\u00E9 des enfants", body: "L\u2019Application ne collecte pas sciemment d\u2019informations personnelles aupr\u00E8s d\u2019enfants de moins de 13 ans." },
+      { heading: "Modifications", body: "Cette politique peut \u00EAtre mise \u00E0 jour sans pr\u00E9avis. Les modifications importantes seront refl\u00E9t\u00E9es sur cette page." }
+    ]
+  },
+  terms: {
+    title: "Conditions d\u2019utilisation",
+    sections: [
+      { heading: "Aper\u00E7u", body: "DaysRing est une application iOS qui visualise en temps r\u00E9el la progression d\u2019\u00E9v\u00E9nements et de cycles r\u00E9currents." },
+      { heading: "Acceptation", body: "En t\u00E9l\u00E9chargeant ou en utilisant l\u2019Application, vous acceptez ces Conditions d\u2019utilisation. Si vous n\u2019\u00EAtes pas d\u2019accord, veuillez cesser d\u2019utiliser l\u2019Application." },
+      { heading: "Propri\u00E9t\u00E9 intellectuelle", body: "Tout le contenu, le design et le code de l\u2019Application appartiennent au D\u00E9veloppeur. La reproduction, la modification ou la redistribution non autoris\u00E9es sont interdites." },
+      { heading: "Achats int\u00E9gr\u00E9s", body: "Les fonctionnalit\u00E9s premium sont fournies via un achat int\u00E9gr\u00E9 unique. Les achats sont factur\u00E9s sur votre identifiant Apple. Les remboursements sont soumis aux politiques d\u2019Apple." },
+      { heading: "Limitation de responsabilit\u00E9", body: "L\u2019Application est fournie en l\u2019\u00E9tat. Le D\u00E9veloppeur ne saurait \u00EAtre tenu responsable de tout dommage r\u00E9sultant de l\u2019utilisation ou de l\u2019impossibilit\u00E9 d\u2019utiliser l\u2019Application." },
+      { heading: "Modifications", body: "Ces conditions peuvent \u00EAtre mises \u00E0 jour sans pr\u00E9avis. L\u2019utilisation continue de l\u2019Application apr\u00E8s les modifications vaut acceptation des conditions mises \u00E0 jour." }
+    ]
+  },
+  contact: "Contact"
+};
+
+DATA["es"] = {
+  label: "Espa\u00F1ol",
+  updated: "\u00DAltima actualizaci\u00F3n: 18 de abril de 2026",
+  tabs: ["Pol\u00EDtica de privacidad", "T\u00E9rminos de uso"],
+  privacy: {
+    title: "Pol\u00EDtica de privacidad",
+    sections: [
+      { heading: "Introducci\u00F3n", body: "DaysRing es una aplicaci\u00F3n iOS proporcionada por Kentaro Shirai. Esta pol\u00EDtica explica c\u00F3mo se maneja la informaci\u00F3n dentro de la Aplicaci\u00F3n." },
+      { heading: "Recopilaci\u00F3n de datos", body: "La Aplicaci\u00F3n no recopila, transmite ni almacena informaci\u00F3n personal en servidores externos. Todos los datos (informaci\u00F3n de seguimiento, configuraci\u00F3n, estado premium, etc.) se almacenan exclusivamente en su dispositivo." },
+      { heading: "Comunicaci\u00F3n de red", body: "La Aplicaci\u00F3n no tiene un servidor backend y no realiza comunicaci\u00F3n por Internet. Sin embargo, durante el procesamiento de compras dentro de la aplicaci\u00F3n, se produce comunicaci\u00F3n con los servidores de Apple. Esta comunicaci\u00F3n es gestionada por Apple y no es accesible para el Desarrollador." },
+      { heading: "Compras integradas", body: "La Aplicaci\u00F3n utiliza el sistema de compras integradas de Apple para desbloquear funciones premium. Todo el procesamiento de pagos es gestionado por Apple, y el Desarrollador no tiene acceso a su informaci\u00F3n de pago." },
+      { heading: "An\u00E1lisis y seguimiento", body: "La Aplicaci\u00F3n no utiliza ning\u00FAn SDK de publicidad, herramientas de an\u00E1lisis ni tecnolog\u00EDas de seguimiento." },
+      { heading: "Privacidad de los ni\u00F1os", body: "La Aplicaci\u00F3n no recopila intencionalmente informaci\u00F3n personal de ni\u00F1os menores de 13 a\u00F1os." },
+      { heading: "Cambios", body: "Esta pol\u00EDtica puede actualizarse sin previo aviso. Los cambios significativos se reflejar\u00E1n en esta p\u00E1gina." }
+    ]
+  },
+  terms: {
+    title: "T\u00E9rminos de uso",
+    sections: [
+      { heading: "Descripci\u00F3n general", body: "DaysRing es una aplicaci\u00F3n iOS que visualiza en tiempo real el progreso de eventos y ciclos recurrentes." },
+      { heading: "Aceptaci\u00F3n", body: "Al descargar o usar la Aplicaci\u00F3n, usted acepta estos T\u00E9rminos de uso. Si no est\u00E1 de acuerdo, por favor deje de usar la Aplicaci\u00F3n." },
+      { heading: "Propiedad intelectual", body: "Todo el contenido, dise\u00F1o y c\u00F3digo de la Aplicaci\u00F3n pertenecen al Desarrollador. La reproducci\u00F3n, modificaci\u00F3n o redistribuci\u00F3n no autorizadas est\u00E1n prohibidas." },
+      { heading: "Compras integradas", body: "Las funciones premium se proporcionan a trav\u00E9s de una compra \u00FAnica integrada. Las compras se cargan a su Apple ID. Los reembolsos est\u00E1n sujetos a las pol\u00EDticas de Apple." },
+      { heading: "Descargo de responsabilidad", body: "La Aplicaci\u00F3n se proporciona tal cual. El Desarrollador no ser\u00E1 responsable de ning\u00FAn da\u00F1o que surja del uso o la imposibilidad de usar la Aplicaci\u00F3n." },
+      { heading: "Cambios", body: "Estos t\u00E9rminos pueden actualizarse sin previo aviso. El uso continuado de la Aplicaci\u00F3n despu\u00E9s de los cambios constituye la aceptaci\u00F3n de los t\u00E9rminos actualizados." }
+    ]
+  },
+  contact: "Contacto"
+};
+
+// ============================================================
+// State & Render
+// ============================================================
+var currentLang = "ja";
+var currentTab = 0;
+
+function render() {
+  var d = DATA[currentLang];
+  document.getElementById("updateDate").textContent = d.updated;
+
+  var langBar = document.getElementById("langBar");
+  langBar.innerHTML = "";
+  var codes = Object.keys(DATA);
+  for (var i = 0; i < codes.length; i++) {
+    var code = codes[i];
+    var btn = document.createElement("button");
+    btn.textContent = DATA[code].label;
+    btn.className = code === currentLang ? "active" : "";
+    btn.setAttribute("data-lang", code);
+    btn.onclick = function() { currentLang = this.getAttribute("data-lang"); render(); };
+    langBar.appendChild(btn);
+  }
+
+  var tabBar = document.getElementById("tabBar");
+  tabBar.innerHTML = "";
+  for (var t = 0; t < d.tabs.length; t++) {
+    var tbtn = document.createElement("button");
+    tbtn.textContent = d.tabs[t];
+    tbtn.className = t === currentTab ? "active" : "";
+    tbtn.setAttribute("data-tab", t);
+    tbtn.onclick = function() { currentTab = parseInt(this.getAttribute("data-tab")); render(); };
+    tabBar.appendChild(tbtn);
+  }
+
+  var data = currentTab === 0 ? d.privacy : d.terms;
+  var html = '<div class="card">';
+  html += '<h2>' + data.title + '</h2>';
+  for (var s = 0; s < data.sections.length; s++) {
+    html += '<h3>' + data.sections[s].heading + '</h3>';
+    html += '<p>' + data.sections[s].body + '</p>';
+  }
+  html += '<div class="contact"><strong>' + d.contact + ':</strong> <a href="mailto:' + CONTACT_EMAIL + '">' + CONTACT_EMAIL + '</a></div>';
+  html += '</div>';
+  document.getElementById("contentArea").innerHTML = html;
+}
+
+function detectLang() {
+  var lang = navigator.language || "ja";
+  if (lang.indexOf("zh") === 0) return "zh-Hans";
+  if (lang.indexOf("fr") === 0) return "fr";
+  if (lang.indexOf("es") === 0) return "es";
+  if (lang.indexOf("en") === 0) return "en";
+  return "ja";
+}
+
+currentLang = detectLang();
+render();
+</script>
+
+</body>
+</html>
